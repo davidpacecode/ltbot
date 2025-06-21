@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-theme="cupcake">
+  <head>
+    <title><%= content_for(:title) || "Ltbot" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <%# adding fontawesome %>
+    <script src="https://kit.fontawesome.com/c756d2fee6.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <%# create the navbar %>
+   <nav>
+     <div class="navbar bg-base-100 shadow-sm">
+       <%= link_to "/home", class: "flex-1" do %>
+       <i class="fa-solid fa-user-robot fa-2xl fa-shake" style="color: #74C0FC;"></i>
+       <span class="btn btn-ghost text-xl">LTBot</span>
+     <% end %>
+     <div class="flex-none">
+       <ul class="menu menu-horizontal px-1">
+         <li><%= link_to "About", "/about" %></li>
+         <li><%= link_to "Admin", "/" %></li>
+       </ul>
+     </div>
+   </nav> 
+
+    <main class="container mx-auto mt-28 px-5 flex">
+      <%= yield %>
+    </main>
+  </body>
+</html>
