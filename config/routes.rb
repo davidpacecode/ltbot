@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   get "/home", to: "pages#home"
   get "/about", to: "pages#about"
   root to: "pages#home"
