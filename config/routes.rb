@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :tool_calls
+  resources :messages
+  resources :chats
   resource :session
   resources :passwords, param: :token
   get "/home", to: "pages#home"

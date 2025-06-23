@@ -1,0 +1,30 @@
+<div id="<%= dom_id message %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Chat:</strong>
+    <%= message.chat_id %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Role:</strong>
+    <%= message.role %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Content:</strong>
+    <%= message.content %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Model:</strong>
+    <%= message.model_id %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Input tokens:</strong>
+    <%= message.input_tokens %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Output tokens:</strong>
+    <%= message.output_tokens %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Tool call:</strong>
+    <%= message.tool_call_id %>
+  </div>
+</div>
