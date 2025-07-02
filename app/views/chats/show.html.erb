@@ -7,6 +7,18 @@
 
   <h1 class="font-bold text-4xl">Showing chat</h1>
 
+  <%# app/views/chats/show.html.erb %>
+  <%= turbo_stream_from [@chat, "messages"] %>
+  <h1>Chat <%= @chat.id %></h1>
+  <div id="messages">
+    <%= render @chat.messages %>
+  </div>
+  <!-- Your form to submit new messages -->
+  <%= form_with(url: chat_messages_path(@chat), method: :post) do |f| %>
+    <%= f.text_area :content %>
+    <%= f.submit "Send" %>
+  <% end %>
+
   <%= render @chat %>
 
   <%= link_to "Edit this chat", edit_chat_path(@chat), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>

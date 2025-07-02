@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: %i[ show edit update destroy ]
+  before_action :set_chat
 
   # GET /messages or /messages.json
   def index
@@ -21,17 +22,28 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    @message = Message.new(message_params)
+    message_content = params[:content]
 
+    # Queue the background job to handle the streaming response
+    ChatStreamJob.perform_later(@chat.id, message_content)
+
+    # Immediately return success to the user
     respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: "Message was successfully created." }
-        format.json { render :show, status: :created, location: @message }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+      format.turbo_stream { head :ok }
+      format.html { redirect_to @chat }
     end
+
+    #     @message = Message.new(message_params)
+    #
+    #     respond_to do |format|
+    #       if @message.save
+    #         format.html { redirect_to @message, notice: "Message was successfully created." }
+    #         format.json { render :show, status: :created, location: @message }
+    #       else
+    #         format.html { render :new, status: :unprocessable_entity }
+    #         format.json { render json: @message.errors, status: :unprocessable_entity }
+    #       end
+    #     end
   end
 
   # PATCH/PUT /messages/1 or /messages/1.json
@@ -58,7 +70,11 @@ class MessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+    def set_chat
+      @chat = Chat.find(params[:chat_id])
+    end    # Use callbacks to share common setup or constraints between actions.
+
     def set_message
       @message = Message.find(params.expect(:id))
     end
