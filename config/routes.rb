@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
   resources :tool_calls
-  resources :messages
   resources :chats do
-    resources :messages, as: :chat_messages
+    resources :messages
   end
- resource :session
- resources :passwords, param: :token
+  resource :session
+  resources :passwords, param: :token
   get "/home", to: "pages#home"
   get "/about", to: "pages#about"
   root to: "pages#home"
